@@ -21,11 +21,11 @@ while($row = mysqli_fetch_array($qry, MYSQL_ASSOC)) {
    }
    
 ?>
-
 <html>
       <head>
         <link href="css/animate.css" rel="stylesheet" type="text/css" />
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>   
+        
     </head>
 
 
@@ -68,8 +68,8 @@ while($row = mysqli_fetch_array($qry, MYSQL_ASSOC)) {
                         </div>
 
                         <button type="submit" class="btn btn-info col-lg-4">Add</button>
-                        <button type="update" class="btn btn-primary col-lg-4" onclick="update()">Update</button>
-                        <button type="delete" class="btn btn-danger col-lg-4" onclick="delete()">Delete</button>
+                        <button type="button" class="btn btn-primary col-lg-4" onclick="update()">Update</button>
+                        <button type="button" class="btn btn-danger col-lg-4" onclick="dele()">Delete</button>
                     </form>
                 </div>
             </div>
@@ -82,28 +82,49 @@ while($row = mysqli_fetch_array($qry, MYSQL_ASSOC)) {
                             <th>Department Name</th>
                             <th>Selection</th>
                         </tr>
+
                         <?php
                           while($row = mysqli_fetch_array($qry2, MYSQL_ASSOC)) {
                                 $id=$row['id'];
                                 $dept=$row['deptname'];
                                 echo "<tr>
-                                        <th>".$id."</th>
-                                        <th>".$dept."</th>
-                                        <th><button type=\"button\" class=\"btn btn-primary\" onclick=\"Selection()\">Update</button></th>
+                                        <td>".$id."</td>
+                                        <td>".$dept."</td>
+                                        <td><a href='#' onclick=\"Selec('".$id."','".$dept."')\">Select</a></td>
                                     </tr>";
                             }  
                         ?>
                     </table>
+<script>
+    function Selec(id,dept){
+        //alert(id+"\n"+dept);
+        document.getElementById("id").value = id;
+        document.getElementById("pwd").value = dept;
+    }
 
+    function update(){
+        var id=document.getElementById("id").value;
+        var dept=document.getElementById("pwd").value;
+        var currentLocation = encodeURI(window.location);
+        var res="php/update.php?qry=UPDATE `department` SET `deptname`='"+dept+"' WHERE `id`="+id+"&loc="+currentLocation;
+
+        res=encodeURI(res);
+        window.location=res;
+    }
+
+    function dele(){
+        var id=document.getElementById("id").value;
+        var currentLocation = encodeURI(window.location);
+        var res="php/update.php?qry=DELETE FROM `department` WHERE `id`="+id+"&loc="+currentLocation;
+        res=encodeURI(res);
+        window.location=res;
+    }
+</script>
                     
                 </div>
             </div>
         </div>
-                    <script>
-                            function Selection(){
-                                alert (id+"\n"+dept);
-                            }
-                    </script>
+                   
       </body>
 </html>
 
